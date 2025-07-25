@@ -24,7 +24,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    
+
     protected function casts(): array
     {
         return [
@@ -33,6 +33,7 @@ class User extends Authenticatable
         ];
     }
 
+    // Relaciones
     public function institutions()
     {
         return $this->hasMany(Institution::class, 'responsible_id');
@@ -45,8 +46,20 @@ class User extends Authenticatable
                     ->withTimestamps();
     }
 
+    public function activeSchools()
+    {
+        return $this->schools()->wherePivot('active', true);
+    }
+
+    // Accessors
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    // Scopes
+    public function scopeByRole($query, $role)
+    {
+        return $query->role($role);
     }
 }
