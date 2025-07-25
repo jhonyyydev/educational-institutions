@@ -2,14 +2,6 @@
 
 Este repositorio contiene la solución al test técnico de desarrollo Full Stack. El sistema permite gestionar instituciones educativas, sus colegios y usuarios de manera jerárquica, facilitando la administración centralizada.
 
-## Estructura del Proyecto
-
-/
-├── backend/    → Proyecto Backend en Laravel 12
-├── frontend/   → Proyecto Frontend en Next.js 15 + TailwindCSS
-├── README.md   → Este archivo
-├── .gitignore  → Configuración de exclusión para Git
-
 ## Tecnologías Utilizadas
 
 - **Backend:** Laravel 12 (PHP 8.2)
@@ -26,7 +18,7 @@ Este repositorio contiene la solución al test técnico de desarrollo Full Stack
 
 ## Instalación del Proyecto
 
-### 1. Clonar el Repositorio
+### 1. Clonar el Repositorio y Ejecutar el Proyecto
 ```bash
 git clone https://github.com/jhonyyydev/educational-institutions.git
 cd educational-institutions
