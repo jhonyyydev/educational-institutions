@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "41138b30-6e17-479e-8bf8-f31b44d3250a",
+		"name": "Educational Institutions API",
+		"description": "# Educational Institutions API - Prueba Técnica Full Stack\n\nEsta colección documenta la solución completa desarrollada para la prueba técnica Full Stack, cuyo objetivo principal es construir un sistema de gestión de instituciones educativas, permitiendo la administración de colegios y usuarios en una estructura jerárquica.\n\n## Enunciado Resuelto:\n\nLa API permite gestionar las entidades requeridas:\n\n- **Instituciones Educativas**: Nombre, RUT, Región, Comuna, Dirección, Teléfono, Fecha de inicio.\n    \n- **Colegios**: Asociados a una institución.\n    \n- **Usuarios**: Asociados a uno o varios colegios.\n    \n- **Responsable**: Usuario encargado de registrar y gestionar la información en el sistema.\n    \n\n## Endpoints API REST Documentados:\n\nSe desarrollaron y documentaron los siguientes endpoints conforme a la lógica de negocio solicitada:\n\n1. **Listar Instituciones** → GET `/api/institutions`\n    \n2. **Crear Institución** → POST `/api/institutions`\n    \n\nTodos los endpoints están protegidos mediante autenticación con **Laravel Sanctum** y utilizan un flujo automatizado de manejo de tokens para simplificar las pruebas.\n\n## Documentación y Variables Dinámicas:\n\n- La colección está organizada en paquetes temáticos (Auth, Institutions) con ejemplos de request/response.\n    \n- Se utilizan variables de entorno (`base_url`, `auth_token`) para facilitar la configuración y reutilización de la API en distintos entornos.\n    \n- El token de autenticación se captura automáticamente tras el login y se inserta en los headers de los requests protegidos.\n    \n\n## Instrucciones de Evaluación:\n\n1. Clonar el repositorio y seguir los pasos de instalación especificados.\n    \n2. Importar esta colección en Postman junto con el archivo de entorno.\n    \n3. Ejecutar los endpoints utilizando la autenticación proporcionada.\n    \n\n---",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41527799"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"auth_token\");",
+									"let jsonResponse = pm.response.json();",
+									"pm.environment.set(\"auth_token\", jsonResponse.token);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"pedro.gonzalez@educacion.cl\",\n    \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "## Endpoint de API: Inicio de Sesión (Login)\n\nEste endpoint se utiliza para autenticar a un usuario y obtener un **token de acceso** que será utilizado en las solicitudes posteriores.\n\nLas credenciales corresponden a un usuario generado mediante **seeds** al ejecutar las migraciones en el backend de Laravel. Este usuario posee el rol de **\"Responsable\"**.\n\n---\n\n### Solicitud (Request)\n\n- **Método:** POST\n    \n- **Endpoint:** [http://localhost:8000/api/login](http://localhost:8000/api/login)\n    \n- **Cuerpo de la Solicitud (Request Body):** La solicitud debe incluir un JSON con los siguientes parámetros:\n    \n    - **email** (string): Correo electrónico del usuario que desea iniciar sesión.\n        \n    - **password** (string): Contraseña asociada a la cuenta del usuario.\n        \n\n#### Ejemplo Request Body:\n\n``` json\n{\n  \"email\": \"user@example.com\",\n  \"password\": \"your_password\"\n}\n\n ```\n\n### Respuesta (Response)\n\nAl iniciar sesión exitosamente, el servidor responderá con un **código de estado 200** y un objeto JSON que contendrá los siguientes campos:\n\n- **user:** Objeto con la información del usuario:\n    \n    - **id** (integer): Identificador único del usuario.\n        \n    - **first_name** (string): Nombre del usuario.\n        \n    - **last_name** (string): Apellido del usuario.\n        \n    - **rut** (string): RUT (Rol Único Tributario) del usuario.\n        \n    - **phone** (string): Número telefónico del usuario.\n        \n    - **email** (string): Correo electrónico del usuario.\n        \n    - **email_verified_at** (string|null): Fecha de verificación del correo electrónico, o null si no ha sido verificado.\n        \n    - **created_at** (string): Fecha de creación del usuario.\n        \n    - **updated_at** (string): Fecha de la última actualización de los datos del usuario.\n        \n- **token** (string): Token de acceso que debe ser utilizado en las solicitudes autenticadas.\n    \n- **message** (string): Mensaje indicando el resultado de la autenticación.\n    \n\n#### Ejemplo Response:\n\n``` json\n{\n  \"user\": {\n    \"id\": 0,\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"rut\": \"\",\n    \"phone\": \"\",\n    \"email\": \"\",\n    \"email_verified_at\": null,\n    \"created_at\": \"\",\n    \"updated_at\": \"\"\n  },\n  \"token\": \"\",\n  \"message\": \"\"\n}\n\n ```\n\n### Notas Importantes:\n\n- Asegúrese de proporcionar correctamente el **email** y **password** para evitar errores de autenticación."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Institución Test\",\n    \"rut\": \"12345678-9\",\n    \"commune_id\": 1,\n    \"address\": \"Calle Inventada 123\",\n    \"phone\": \"123456789\",\n    \"start_date\": \"2024-01-01\",\n    \"responsible_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						},
+						"description": "## Endpoint de API: Cierre de Sesión (Logout)\n\nEste endpoint es responsable de cerrar la sesión de un usuario en la aplicación. Para procesar correctamente la acción de cierre de sesión, es necesario enviar la solicitud con los parámetros y encabezados adecuados.\n\n---\n\n### Solicitud (Request)\n\n- **Método:** POST\n    \n- **URL:** [http://localhost:8000/api/logout](http://localhost:8000/api/logout)\n    \n- **Headers:**\n    \n    - Content-Type: application/json\n        \n    - Authorization: Bearer {{auth_token}} _(el token debe enviarse en el header)_\n        \n\n---\n\n### Respuesta (Response)\n\nAl realizar un cierre de sesión exitoso, la API responderá con un JSON de la siguiente estructura:\n\n- **Código de Estado:** 200 OK\n    \n- **Content-Type:** application/json\n    \n- **Body de la Respuesta:**\n    \n    - **message** (string): Mensaje indicando que la operación de logout se realizó correctamente. Este mensaje puede ser un string vacío.\n        \n\n### Notas Importantes:\n\n- Este endpoint debe ser utilizado cuando el usuario desea finalizar su sesión de forma explícita.\n    \n- Una vez ejecutado el logout, el **token actual queda invalidado** y no podrá ser utilizado para realizar solicitudes autenticadas."
+					},
+					"response": []
+				}
+			],
+			"description": "## Autenticación (Laravel Sanctum)\n\nEl API utiliza **Laravel Sanctum** para la autenticación de usuarios mediante tokens.\n\n### Proceso de Autenticación:\n\n1. El usuario envía sus credenciales mediante el **endpoint de Login**.\n    \n2. En la respuesta, se recibe un **token de acceso** que será utilizado para autenticar las siguientes peticiones a la API.\n    \n3. Este token debe ser enviado en cada request en el Header:\n    \n\n- Authorization: Bearer {{auth_token}}\n    \n\nPara facilitar el uso del token en Postman, se implementó un **Test Script** que guarda automáticamente el token en la variable de entorno **`auth_token`** al realizar el login.\n\n- Esto evita tener que copiar y pegar el token manualmente.\n    \n- El token se actualizará cada vez que se realice una nueva autenticación.\n    \n\n### Logout (Cerrar Sesión)\n\nEl endpoint de **Logout** permite invalidar el token actual almacenado en **`auth_token`**, cerrando la sesión del usuario.\n\n- Después de hacer logout, el token ya no será válido para realizar peticiones a la API."
+		},
+		{
+			"name": "Institutions",
+			"item": [
+				{
+					"name": "List Institutions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/institutions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"institutions"
+							]
+						},
+						"description": "## Listar Instituciones\n\nEste endpoint permite obtener un listado de las instituciones registradas en el sistema. La respuesta incluye los detalles de cada institución y se entrega de forma paginada.\n\n---\n\n### Solicitud (Request)\n\n- **Método:** GET\n    \n- **URL:** [http://localhost:8000/api/institutions](http://localhost:8000/api/institutions)\n    \n- **Headers:**\n    \n    - Content-Type: application/json\n        \n    - Authorization: Bearer {{auth_token}}\n        \n\n**Parámetros de solicitud:**\n\nEste endpoint no requiere parámetros adicionales en la solicitud.\n\n### Respuesta (Response)\n\nLa respuesta se devuelve en formato **JSON** con la siguiente estructura:\n\n``` json\n{\n    \"data\": [\n        {\n            \"id\": 0,\n            \"name\": \"\",\n            \"rut\": \"\",\n            \"address\": \"\",\n            \"phone\": \"\",\n            \"start_date\": \"\",\n            \"commune\": {\n                \"id\": 0,\n                \"name\": \"\"\n            },\n            \"region\": {\n                \"id\": 0,\n                \"name\": \"\"\n            },\n            \"responsible\": {\n                \"id\": 0,\n                \"full_name\": \"\",\n                \"email\": \"\"\n            },\n            \"created_at\": \"\",\n            \"updated_at\": \"\"\n        }\n    ],\n    \"meta\": {\n        \"total\": [0],\n        \"per_page\": [0],\n        \"current_page\": [0],\n        \"last_page\": [0],\n        \"from\": 0,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"\",\n                \"active\": true\n            }\n        ],\n        \"path\": \"\",\n        \"to\": 0\n    },\n    \"links\": {\n        \"first\": \"\",\n        \"last\": \"\",\n        \"prev\": null,\n        \"next\": \"\"\n    }\n}\n\n ```\n\n### Detalle de la Respuesta:\n\n- **data:** Arreglo de objetos que representan las instituciones.\n    \n    - **id:** Identificador único de la institución.\n        \n    - **name:** Nombre de la institución.\n        \n    - **rut:** RUT (Rol Único Tributario) de la institución.\n        \n    - **address:** Dirección física de la institución.\n        \n    - **phone:** Número telefónico de contacto.\n        \n    - **start_date:** Fecha en la que la institución inició operaciones.\n        \n    - **commune:** Objeto con los datos de la comuna (id y nombre).\n        \n    - **region:** Objeto con los datos de la región (id y nombre).\n        \n    - **responsible:** Objeto con la información del responsable (id, nombre completo, email).\n        \n    - **created_at:** Fecha de creación del registro.\n        \n    - **updated_at:** Fecha de última actualización del registro.\n        \n- **meta:** Información de paginación.\n    \n    - **total:** Número total de instituciones disponibles.\n        \n    - **per_page:** Cantidad de instituciones por página.\n        \n    - **current_page:** Número de la página actual.\n        \n    - **last_page:** Total de páginas disponibles.\n        \n    - **from:** Índice de inicio de la página actual.\n        \n    - **links:** Arreglo de enlaces de paginación (url, etiqueta y estado activo).\n        \n    - **path:** Ruta base de la solicitud.\n        \n    - **to:** Índice de fin de la página actual.\n        \n- **links:** Enlaces de navegación para la paginación.\n    \n    - **first:** URL de la primera página.\n        \n    - **last:** URL de la última página.\n        \n    - **prev:** URL de la página anterior (si existe).\n        \n    - **next:** URL de la página siguiente (si existe).\n        \n\n### Notas Importantes:\n\n- Este endpoint es útil para obtener un listado completo de instituciones, junto con sus detalles y los controles de paginación necesarios para navegar por los resultados."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Institution",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Institución Test\",\n    \"rut\": \"12345678-2\",\n    \"commune_id\": 1,\n    \"address\": \"Calle Inventada 123\",\n    \"phone\": \"123456789\",\n    \"start_date\": \"2024-01-01\",\n    \"responsible_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/institutions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"institutions"
+							]
+						},
+						"description": "## Crear Institución\n\nEste endpoint permite registrar una nueva institución en el sistema proporcionando los datos correspondientes. Al completar el registro exitosamente, la API devolverá los detalles de la institución creada, incluyendo su identificador único y la información asociada.\n\n### Solicitud (Request)\n\n- **Método:** POST\n    \n- **URL:** [http://localhost:8000/api/institutions](http://localhost:8000/api/institutions)\n    \n- **Headers:**\n    \n    - Content-Type: application/json\n        \n    - Authorization: Bearer {{auth_token}}\n        \n\n**Formato del Body de la Solicitud (JSON):**\n\nLa solicitud debe incluir los siguientes parámetros:\n\n| Campo | Tipo | Descripción |\n| --- | --- | --- |\n| name | string | Nombre de la institución |\n| rut | string | RUT único de la institución |\n| commune_id | integer | ID de la comuna donde se ubica la institución |\n| address | string | Dirección física de la institución |\n| phone | string | Número telefónico de contacto |\n| start_date | string | Fecha de inicio de operaciones (formato YYYY-MM-DD) |\n| responsible_id | integer | ID del responsable asociado a la institución |\n\n**Ejemplo de Request Body:**\n\n``` json\n{\n  \"name\": \"Institución Test\",\n  \"rut\": \"12345678-2\",\n  \"commune_id\": 1,\n  \"address\": \"Calle Inventada 123\",\n  \"phone\": \"123456789\",\n  \"start_date\": \"2024-01-01\",\n  \"responsible_id\": 1\n}\n\n ```\n\n### Respuesta (Response)\n\n- **Código de Estado:** 201 Created\n    \n- **Content-Type:** application/json\n    \n\nLa respuesta incluirá un mensaje y un objeto de datos con la siguiente estructura:\n\n| Campo | Descripción |\n| --- | --- |\n| message | Mensaje indicando el resultado de la operación (puede ser vacío). |\n| data | Objeto con los detalles de la institución creada. |\n\n##### Estructura del Objeto `data`:\n\n| Campo | Tipo | Descripción |\n| --- | --- | --- |\n| id | integer | Identificador único de la institución |\n| name | string | Nombre de la institución |\n| rut | string | RUT de la institución |\n| address | string | Dirección de la institución |\n| phone | string | Teléfono de contacto |\n| start_date | string | Fecha de inicio de operaciones |\n| commune | object | Detalles de la comuna (id, nombre) |\n| region | object | Detalles de la región (id, nombre) |\n| responsible | object | Detalles del responsable (id, nombre, email) |\n| created_at | string | Timestamp de creación del registro |\n| updated_at | string | Timestamp de última actualización |\n\n**Ejemplo de respuesta:**\n\n``` json\n{\n  \"message\": \"\",\n  \"data\": {\n    \"id\": 0,\n    \"name\": \"\",\n    \"rut\": \"\",\n    \"address\": \"\",\n    \"phone\": \"\",\n    \"start_date\": \"\",\n    \"commune\": {\n      \"id\": 0,\n      \"name\": \"\"\n    },\n    \"region\": {\n      \"id\": 0,\n      \"name\": \"\"\n    },\n    \"responsible\": {\n      \"id\": 0,\n      \"full_name\": \"\",\n      \"email\": \"\"\n    },\n    \"created_at\": \"\",\n    \"updated_at\": \"\"\n  }\n}\n\n ```\n\n### Notas Importantes:\n\n- Es necesario autenticarse previamente para realizar esta operación.\n    \n- Asegúrate de proporcionar IDs válidos para la comuna y el responsable.\n    \n- El RUT debe ser único dentro del sistema."
+					},
+					"response": []
+				}
+			],
+			"description": "# Instituciones: Gestión de Instituciones Educativas (Lógica de Negocio)\n\nEsta colección contiene los endpoints desarrollados como parte de la prueba técnica Full Stack, orientados a la gestión de instituciones educativas.\n\nEl API permite administrar las entidades de \"Institución\", que representan organizaciones educativas que agrupan colegios y usuarios dentro de una jerarquía estructurada.\n\n## Funcionalidades Documentadas:\n\nActualmente, esta colección documenta los endpoints esenciales para la gestión de instituciones:\n\n1. **Listar Instituciones**\n    \n    - Método: GET\n        \n    - Descripción: Obtiene el listado completo de instituciones registradas en el sistema.\n        \n2. **Crear Institución**\n    \n    - Método: POST\n        \n    - Descripción: Registra una nueva institución educativa mediante la recepción de datos estructurados.\n        \n\n## Estructura de la Entidad Institución:\n\n| Campo | Tipo | Descripción |\n| --- | --- | --- |\n| name | string | Nombre de la institución |\n| rut | string | RUT único de la institución |\n| region | string | Región donde se ubica |\n| comuna | string | Comuna correspondiente |\n| direccion | string | Dirección física |\n| telefono | string | Número telefónico de contacto |\n| fecha_inicio | date | Fecha de inicio de operaciones |\n\n## Autenticación Requerida:\n\nTodos los endpoints están protegidos mediante Laravel Sanctum. Es necesario incluir el token de autenticación en el Header de la siguiente manera:  \nAuthorization: Bearer {{auth_token}}"
+		}
+	]
+}
