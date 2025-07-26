@@ -18,7 +18,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Auth
     Route::post('/logout', [AuthController::class, 'logout']);
     
-    // Institutions
-    Route::get('/institutions', [InstitutionController::class, 'index']);
-    Route::post('/institutions', [InstitutionController::class, 'store']);
+    // Institutions - Solo usuarios con permiso 'gestionar-instituciones'
+    Route::get('/institutions', [InstitutionController::class, 'index'])
+        ->middleware('permission:gestionar-instituciones');
+    Route::post('/institutions', [InstitutionController::class, 'store'])
+        ->middleware('permission:gestionar-instituciones');
 });
