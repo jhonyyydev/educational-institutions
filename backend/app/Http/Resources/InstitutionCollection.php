@@ -12,10 +12,10 @@ class InstitutionCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'meta' => [
-                'total' => $this->total(),
-                'per_page' => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'last_page' => $this->lastPage(),
+                'total' => $this->resource->total(),
+                'per_page' => $this->resource->perPage(),
+                'current_page' => $this->resource->currentPage(),
+                'last_page' => $this->resource->lastPage(),
             ],
         ];
     }

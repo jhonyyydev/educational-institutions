@@ -8,7 +8,7 @@ class StoreInstitutionRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('gestionar-instituciones');
     }
 
     public function rules(): array
