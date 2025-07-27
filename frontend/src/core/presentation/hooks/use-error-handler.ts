@@ -6,7 +6,6 @@ import type { ApiError } from "@/shared/types/api.types"
 
 export function useErrorHandler() {
   const handleError = useCallback((error: ApiError | Error | any) => {
-    console.error("Application error:", error)
 
     // Verificar si es un error de la API
     if (error && typeof error === "object" && "status" in error) {
