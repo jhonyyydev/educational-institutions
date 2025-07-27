@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\InstitutionController;
+use App\Http\Controllers\Api\ValidationController;
+
+// Rutas públicas
+Route::post('/login', [AuthController::class, 'login']);
+
+// Rutas protegidas
+Route::middleware('auth:sanctum')->group(function () {
+    // User información
+    Route::get('/user', function (Request $request) {
+        return $request->user()->load('roles.permissions');
+    });
+    
+    // Auth
+    Route::post('/logout', [AuthController::class, 'logout']);
+    
+    // Endpoints de validación
+    Route::get('/schools/validate-rut', [ValidationController::class, 'validateSchoolRut']);
+    Route::get('/users/validate-rut', [ValidationController::class, 'validateUserRut']);
+    
+    // Institutions - Solo usuarios con permiso 'gestionar-instituciones'
+    Route::middleware('permission:gestionar-instituciones')->group(function () {
+        Route::get('/institutions', [InstitutionController::class, 'index']);
+        Route::post('/institutions', [InstitutionController::class, 'store']); // Registro compuesto
+        Route::post('/institutions/simple', [InstitutionController::class, 'storeSimple']); // Registro simple
+    });
+});
