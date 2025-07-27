@@ -31,9 +31,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar */}
       <div className="w-64 flex flex-col" style={{ backgroundColor: "#12172f" }}>
         {/* Logo */}
-        <div className="p-6 flex items-center justify-center">
-          <div className="w-20 h-16 bg-white rounded-lg flex items-center justify-center">
-            <Icon name="logo-cuadrado" size={40} />
+        <div className="w-full px-8 flex items-center pt-6">
+          <div className="w-full flex items-center">
+            <Icon name="logo-rectangulo" size={120} />
           </div>
         </div>
 
