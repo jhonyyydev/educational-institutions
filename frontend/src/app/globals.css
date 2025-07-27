@@ -54,7 +54,17 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: var(--font-red-hat-display), system-ui, sans-serif;
+  }
+
+  /* Clases específicas para usar las fuentes */
+  .font-red-hat {
+    font-family: var(--font-red-hat-display), system-ui, sans-serif;
+  }
+
+  .font-red-hat-italic {
+    font-family: var(--font-red-hat-display), system-ui, sans-serif;
+    font-style: italic;
   }
 }
 

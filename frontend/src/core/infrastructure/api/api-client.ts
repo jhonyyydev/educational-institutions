@@ -26,10 +26,6 @@ class ApiClient {
       (config) => {
         const fullUrl = `${config.baseURL}${config.url}`
 
-        if (config.data) {
-          console.log("Request data:", config.data)
-        }
-
         if (typeof window !== "undefined") {
           const token = localStorage.getItem(STORAGE_KEYS.TOKEN)
           if (token) {
