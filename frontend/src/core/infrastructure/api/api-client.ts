@@ -8,7 +8,7 @@ class ApiClient {
   constructor() {
     this.client = axios.create({
       baseURL: API_BASE_URL,
-      timeout: 15000, 
+      timeout: 15000,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -24,8 +24,6 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
-        const fullUrl = `${config.baseURL}${config.url}`
-
         if (typeof window !== "undefined") {
           const token = localStorage.getItem(STORAGE_KEYS.TOKEN)
           if (token) {
@@ -58,11 +56,11 @@ class ApiClient {
           apiError.status = 0
         } else if (error.response) {
           apiError.status = error.response.status
-          const data = error.response.data as any
+          const data = error.response.data as Record<string, unknown>
 
           if (data) {
-            apiError.message = data.message || `Error ${error.response.status}`
-            apiError.errors = data.errors
+            apiError.message = (data.message as string) || `Error ${error.response.status}`
+            apiError.errors = data.errors as Record<string, string[]>
           }
         } else if (error.request) {
           apiError.message = "No se recibió respuesta del servidor."
@@ -82,17 +80,17 @@ class ApiClient {
     )
   }
 
-  public async get<T>(url: string, params?: any): Promise<T> {
+  public async get<T>(url: string, params?: unknown): Promise<T> {
     const response = await this.client.get(url, { params })
     return response.data
   }
 
-  public async post<T>(url: string, data?: any): Promise<T> {
+  public async post<T>(url: string, data?: unknown): Promise<T> {
     const response = await this.client.post(url, data)
     return response.data
   }
 
-  public async put<T>(url: string, data?: any): Promise<T> {
+  public async put<T>(url: string, data?: unknown): Promise<T> {
     const response = await this.client.put(url, data)
     return response.data
   }

@@ -14,17 +14,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
         defaultOptions: {
           queries: {
             staleTime: 60 * 1000, // 1 minuto
-            retry: (failureCount, error: any) => {
+            retry: (failureCount, error) => {
               // No reintentar en errores de autenticación
-              if (error?.status === 401 || error?.status === 403) {
+              const apiError = error as { status?: number }
+              if (apiError?.status === 401 || apiError?.status === 403) {
                 return false
               }
               return failureCount < 3
             },
           },
           mutations: {
-            retry: (failureCount, error: any) => {
-              if (error?.status === 401 || error?.status === 403) {
+            retry: (failureCount, error) => {
+              const apiError = error as { status?: number }
+              if (apiError?.status === 401 || apiError?.status === 403) {
                 return false
               }
               return failureCount < 2

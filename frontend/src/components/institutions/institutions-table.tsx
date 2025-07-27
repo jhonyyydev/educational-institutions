@@ -17,10 +17,9 @@ interface InstitutionsTableProps {
   }
   onPageChange: (page: number) => void
   onPerPageChange: (perPage: number) => void
-  isLoading?: boolean
 }
 
-export function InstitutionsTable({ data, meta, onPageChange, onPerPageChange, isLoading }: InstitutionsTableProps) {
+export function InstitutionsTable({ data, meta, onPageChange, onPerPageChange }: InstitutionsTableProps) {
   const [selectedItems, setSelectedItems] = useState<number[]>([])
 
   const handleSelectAll = (checked: boolean) => {
@@ -65,7 +64,7 @@ export function InstitutionsTable({ data, meta, onPageChange, onPerPageChange, i
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((institution, index) => (
+            {data.map((institution) => (
               <TableRow key={institution.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                 <TableCell className="px-4 py-4">
                   <Checkbox

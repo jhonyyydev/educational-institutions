@@ -7,11 +7,13 @@ import { InstitutionUseCases } from "@/core/domain/use-cases/institution-use-cas
 import { InstitutionRepositoryImpl } from "@/core/infrastructure/repositories/institution-repository-impl"
 import type { ApiError } from "@/shared/types/api.types"
 
+// Query keys
 const QUERY_KEYS = {
   INSTITUTIONS: "institutions",
   INSTITUTION_LIST: (params?: SearchParams) => ["institutions", "list", params],
 } as const
 
+// Factory function para crear instancias
 function createInstitutionUseCases() {
   return new InstitutionUseCases(new InstitutionRepositoryImpl())
 }
@@ -20,12 +22,15 @@ export function useInstitutions(params?: SearchParams) {
   return useQuery<InstitutionsResponse, ApiError>({
     queryKey: QUERY_KEYS.INSTITUTION_LIST(params),
     queryFn: async () => {
+      console.log("🏢 Fetching institutions with params:", params)
       const institutionUseCases = createInstitutionUseCases()
       const result = await institutionUseCases.getInstitutions(params)
+      console.log("🏢 Institutions fetched:", result)
       return result
     },
-    staleTime: 5 * 60 * 1000, 
-    retry: (failureCount, error) => {
+    staleTime: 5 * 60 * 1000, // 5 minutos
+    retry: (failureCount: number, error: ApiError) => {
+      console.log(`🔄 Retry attempt ${failureCount} for institutions query`)
       // No reintentar en errores de autenticación o permisos
       if (error.status === 401 || error.status === 403) {
         return false
@@ -50,6 +55,7 @@ export function useCreateInstitution() {
       })
     },
     onError: (error: ApiError) => {
+      console.error("Error creating institution:", error)
     },
   })
 }
@@ -62,7 +68,7 @@ export function useInstitutionFilters() {
   })
 
   const updateFilters = (newFilters: Partial<SearchParams>) => {
-    setFilters((prev) => ({
+    setFilters((prev: SearchParams) => ({
       ...prev,
       ...newFilters,
       page: newFilters.page || 1, // Reset page when other filters change

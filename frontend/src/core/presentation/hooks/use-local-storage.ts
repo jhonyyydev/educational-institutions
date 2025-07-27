@@ -11,7 +11,8 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     try {
       const item = window.localStorage.getItem(key)
       return item ? JSON.parse(item) : initialValue
-    } catch (error) {
+    } catch {
+      console.error(`Error reading localStorage key "${key}"`)
       return initialValue
     }
   })
@@ -25,17 +26,20 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       if (typeof window !== "undefined") {
         window.localStorage.setItem(key, JSON.stringify(valueToStore))
       }
-    } catch (error) {
+    } catch {
+      console.error(`Error setting localStorage key "${key}"`)
     }
   }
 
+  // Función para remover el item
   const removeValue = () => {
     try {
       setStoredValue(initialValue)
       if (typeof window !== "undefined") {
         window.localStorage.removeItem(key)
       }
-    } catch (error) {
+    } catch {
+      console.error(`Error removing localStorage key "${key}"`)
     }
   }
 

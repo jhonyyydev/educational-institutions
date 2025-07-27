@@ -40,7 +40,7 @@ export default function LoginPage() {
       await login(data.email, data.password)
       handleSuccess("Inicio de sesión exitoso")
       router.push("/dashboard")
-    } catch (error: any) {
+    } catch (error: unknown) {
       handleError(error)
     } finally {
       setIsLoading(false)
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 placeholder=""
                 disabled={isLoading}
               />
-              {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
+              {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
             </div>
 
             {/* Campo Contraseña */}
@@ -94,7 +94,7 @@ export default function LoginPage() {
                 placeholder=""
                 disabled={isLoading}
               />
-              {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
+              {errors.password && <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>}
             </div>
 
             {/* Botón de Login */}
