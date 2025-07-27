@@ -21,7 +21,7 @@ return [
 
     'allowed_origins' => [
         'http://localhost:3000',  // Develop mode
-        // Agregar aquí mi dominio de producción cuando lo tenga
+        'https://educational-institutions-five.vercel.app' // Dominio de producción
     ],
 
     'allowed_origins_patterns' => [],
