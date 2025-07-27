@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Logo } from "@/components/ui/icon"
 import { useAuth } from "@/core/presentation/contexts/auth-context"
 import { useErrorHandler } from "@/core/presentation/hooks/use-error-handler"
 import { loginSchema, type LoginFormData } from "@/shared/utils/validation"
@@ -49,62 +50,48 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex">
       {/* Logo Section - Lado Izquierdo */}
-      <div className="flex-1 flex items-center justify-center" style={{ backgroundColor: "#F3F4F6" }}>
-        <div className="flex items-center justify-center">
-          <div
-            className="w-80 h-80 rounded-[2.5rem] flex items-center justify-center shadow-lg"
-            style={{ backgroundColor: "#E2A355" }}
-          >
-            <div className="w-48 h-48 bg-white rounded-2xl flex items-center justify-center">
-              <div className="relative">
-                <svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20 60L40 20L60 40L80 10L100 50L120 30V80H0V60L20 60Z" fill="#E2A355" />
-                  <path d="M0 60L20 30L40 45L60 15L80 35L100 20L120 40V80H0V60Z" fill="#D4941E" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="flex-1 flex items-center justify-center">
+        <Logo variant="cuadrado" size={360} />
       </div>
 
       {/* Form Section - Lado Derecho */}
-      <div className="flex-1 flex items-center justify-center bg-white">
+      <div className="flex-1 flex items-center justify-center" style={{ backgroundColor: "#dde6f2" }}>
         <div className="w-full max-w-md px-8">
           {/* Header */}
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">Bienvenido</h1>
-            <p className="text-gray-600 text-lg">Inicia sesión si tienes una cuenta con nosotros</p>
+          <div className="text-start mb-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-3 font-display">Bienvenido</h1>
+            <p className="text-gray-600 text-xs">Inicia sesión si tienes una cuenta con nosotros</p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Campo Usuario */}
             <div>
-              <Label htmlFor="email" className="block text-gray-700 font-medium text-base mb-3">
+              <Label htmlFor="email" className="block text-gray-700 font-medium text-sm mb-2">
                 Usuario
               </Label>
               <Input
                 id="email"
                 type="email"
                 {...register("email")}
-                className="w-full h-14 px-4 text-base border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-0 transition-colors"
-                placeholder="ejemplo@correo.com"
+                className="w-full h-10 px-2 text-base border border-gray-600 focus:border-primary focus:ring-0 transition-colors bg-white"
+                placeholder=""
                 disabled={isLoading}
               />
               {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
             </div>
 
             {/* Campo Contraseña */}
-            <div>
-              <Label htmlFor="password" className="block text-gray-700 font-medium text-base mb-3">
+            <div className="py-4">
+              <Label htmlFor="password" className="block text-gray-700 font-medium text-sm mb-3">
                 Contraseña
               </Label>
               <Input
                 id="password"
                 type="password"
                 {...register("password")}
-                className="w-full h-14 px-4 text-base border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-0 transition-colors"
-                placeholder="Tu contraseña"
+                className="w-full h-10 px-2 text-base border border-gray-600 focus:border-primary focus:ring-0 transition-colors bg-white"
+                placeholder=""
                 disabled={isLoading}
               />
               {errors.password && <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>}
@@ -114,9 +101,9 @@ export default function LoginPage() {
             <div className="pt-4">
               <Button
                 type="submit"
-                className="w-full h-14 text-white font-semibold text-base rounded-lg transition-colors"
+                className="w-full h-10 text-white font-bold text-lg transition-colors font-red-hat"
                 style={{
-                  backgroundColor: "#2D3748",
+                  backgroundColor: "#12172f",
                   border: "none",
                 }}
                 disabled={isLoading}
@@ -127,7 +114,7 @@ export default function LoginPage() {
                 }}
                 onMouseLeave={(e) => {
                   if (!isLoading) {
-                    e.currentTarget.style.backgroundColor = "#2D3748"
+                    e.currentTarget.style.backgroundColor = "#12172f"
                   }
                 }}
               >

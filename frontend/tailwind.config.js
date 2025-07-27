@@ -19,8 +19,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-poppins)", "system-ui", "sans-serif"],
+        sans: ["var(--font-red-hat-display)", "system-ui", "sans-serif"],
+        display: ["var(--font-red-hat-display)", "system-ui", "sans-serif"],
+        "red-hat": ["var(--font-red-hat-display)", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
