@@ -1,40 +1,31 @@
 "use client"
-
-import { useState } from "react"
 import type { Institution } from "@/shared/types/institution.types"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { StatusBadge } from "@/components/ui/status-badge"
-import { CustomPagination } from "@/components/ui/custom-pagination"
 import { Checkbox } from "@/components/ui/checkbox"
 
 interface InstitutionsTableProps {
   data: Institution[]
-  meta?: {
-    total: number
-    per_page: number
-    current_page: number
-    last_page: number
-  }
   onPageChange: (page: number) => void
   onPerPageChange: (perPage: number) => void
+  selectedItems: number[]
+  onSelectionChange: (selectedItems: number[]) => void
 }
 
-export function InstitutionsTable({ data, meta, onPageChange, onPerPageChange }: InstitutionsTableProps) {
-  const [selectedItems, setSelectedItems] = useState<number[]>([])
-
+export function InstitutionsTable({ data, selectedItems, onSelectionChange }: InstitutionsTableProps) {
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedItems(data.map((item) => item.id))
+      onSelectionChange(data.map((item) => item.id))
     } else {
-      setSelectedItems([])
+      onSelectionChange([])
     }
   }
 
   const handleSelectItem = (id: number, checked: boolean) => {
     if (checked) {
-      setSelectedItems([...selectedItems, id])
+      onSelectionChange([...selectedItems, id])
     } else {
-      setSelectedItems(selectedItems.filter((item) => item !== id))
+      onSelectionChange(selectedItems.filter((item) => item !== id))
     }
   }
 
@@ -45,7 +36,7 @@ export function InstitutionsTable({ data, meta, onPageChange, onPerPageChange }:
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       {/* Tabla */}
       <div className="overflow-x-auto">
         <Table>
@@ -82,26 +73,6 @@ export function InstitutionsTable({ data, meta, onPageChange, onPerPageChange }:
             ))}
           </TableBody>
         </Table>
-      </div>
-
-      {/* Footer con paginación */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-600">
-            {selectedItems.length} de {data.length} elemento(s) seleccionadas
-          </div>
-
-          {meta && (
-            <CustomPagination
-              currentPage={meta.current_page}
-              totalPages={meta.last_page}
-              perPage={meta.per_page}
-              total={meta.total}
-              onPageChange={onPageChange}
-              onPerPageChange={onPerPageChange}
-            />
-          )}
-        </div>
       </div>
     </div>
   )

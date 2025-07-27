@@ -3,19 +3,21 @@
 import { useAuth } from "@/core/presentation/contexts/auth-context"
 import { useInstitutions, useInstitutionFilters } from "@/core/presentation/hooks/use-institutions"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { InstitutionsTable } from "@/components/institutions/institutions-table"
 import { SearchBar } from "@/components/ui/search-bar"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
+import { CustomPagination } from "@/components/ui/custom-pagination"
 
 export default function DashboardPage() {
   const { isAuthenticated, isLoading: authLoading } = useAuth()
   const router = useRouter()
   const { filters, updateFilters } = useInstitutionFilters()
   const { data: institutionsData, isLoading, error } = useInstitutions(filters)
+  const [selectedItems, setSelectedItems] = useState<number[]>([])
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -57,31 +59,52 @@ export default function DashboardPage() {
               <SearchBar placeholder="Buscar" onSearch={handleSearch} className="w-full" />
             </div>
             <Button
-              className="bg-secondary hover:bg-secondary/90 text-white font-medium px-6 py-2 rounded-lg"
+              className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-2 rounded-lg"
               onClick={() => router.push("/dashboard/institutions/new")}
             >
-              <Plus className="w-4 h-4 mr-2" />+ Nuevo
+              <Plus className="w-4 h-4 mr-2" />Nuevo
             </Button>
           </div>
         </div>
 
         {/* Contenido principal */}
-        <div className="flex-1 p-6">
-          {isLoading ? (
-            <div className="flex items-center justify-center h-64">
-              <LoadingSpinner size="lg" />
+        <div className="flex-1 flex flex-col">
+          <div className="flex-1 p-6">
+            {isLoading ? (
+              <div className="flex items-center justify-center h-64">
+                <LoadingSpinner size="lg" />
+              </div>
+            ) : error ? (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-red-800">Error al cargar las instituciones: {error.message}</p>
+              </div>
+            ) : (
+              <InstitutionsTable
+                data={institutionsData?.data || []}
+                onPageChange={handlePageChange}
+                onPerPageChange={handlePerPageChange}
+                selectedItems={selectedItems}
+                onSelectionChange={setSelectedItems}
+              />
+            )}
+          </div>
+
+          {/* Footer con paginación fijo en el pie de página */}
+          {institutionsData?.meta && (
+            <div className="bg-white border-t border-gray-200 px-6 py-4 mt-auto">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-600">
+                  {selectedItems.length} de {institutionsData.data.length} elemento(s) seleccionadas
+                </div>
+                <CustomPagination
+                  currentPage={institutionsData.meta.current_page}
+                  totalPages={institutionsData.meta.last_page}
+                  perPage={institutionsData.meta.per_page}
+                  onPageChange={handlePageChange}
+                  onPerPageChange={handlePerPageChange}
+                />
+              </div>
             </div>
-          ) : error ? (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-red-800">Error al cargar las instituciones: {error.message}</p>
-            </div>
-          ) : (
-            <InstitutionsTable
-              data={institutionsData?.data || []}
-              meta={institutionsData?.meta}
-              onPageChange={handlePageChange}
-              onPerPageChange={handlePerPageChange}
-            />
           )}
         </div>
       </div>

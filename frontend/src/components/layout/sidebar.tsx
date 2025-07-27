@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Home, GraduationCap, Users, UsersRound, ArrowRight } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 
@@ -10,29 +10,29 @@ const navigationItems = [
   {
     name: "Dashboard",
     href: "/dashboard",
-    icon: Home,
+    icon: "home",
   },
   {
     name: "Instituciones",
     href: "/dashboard/institutions",
-    icon: GraduationCap,
+    icon: "school",
   },
   {
     name: "Usuarios",
     href: "/dashboard/users",
-    icon: Users,
+    icon: "person",
   },
   {
     name: "Grupos",
     href: "/dashboard/groups",
-    icon: UsersRound,
+    icon: "group",
   },
   {
     name: "Reportes",
     href: "/dashboard/reports",
-    icon: ArrowRight,
+    icon: "image",
   },
-]
+] as const
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -46,13 +46,10 @@ export function Sidebar() {
           <Link key={item.name} href={item.href}>
             <Button
               variant="ghost"
-              className={cn(
-                "w-full justify-start text-primary-foreground hover:bg-primary-foreground/10",
-                isActive && "bg-primary-foreground/20 text-white",
-              )}
+              className={cn("w-full justify-start text-white hover:bg-white/10", isActive && "bg-white/20 text-white")}
             >
-              <item.icon className="w-5 h-5 mr-3" />
-              <span className="sr-only">{item.name}</span>
+              <Icon name={item.icon} size={20} className="mr-3 brightness-0 invert" />
+              {item.name}
             </Button>
           </Link>
         )
