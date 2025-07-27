@@ -6,13 +6,6 @@ return [
     |--------------------------------------------------------------------------
     | Cross-Origin Resource Sharing (CORS) Configuration
     |--------------------------------------------------------------------------
-    |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
     */
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
@@ -20,8 +13,10 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://localhost:3000',  // Develop mode
-        // Agregar aquí mi dominio de producción cuando lo tenga
+        'http://localhost:3000',  // Para desarrollo local
+        env('FRONTEND_URL', 'http://localhost:3000'), // URL dinámica del frontend
+        // Agregar aquí mi URL de frontend en producción cuando la tenga
+        // 'https://tu-frontend.vercel.app'
     ],
 
     'allowed_origins_patterns' => [],
