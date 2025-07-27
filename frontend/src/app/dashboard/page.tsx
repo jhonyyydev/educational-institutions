@@ -81,7 +81,6 @@ export default function DashboardPage() {
               meta={institutionsData?.meta}
               onPageChange={handlePageChange}
               onPerPageChange={handlePerPageChange}
-              isLoading={isLoading}
             />
           )}
         </div>

@@ -1,7 +1,7 @@
-import type React from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
-interface IconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface IconProps {
   name:
     | "logo-cuadrado"
     | "logo-rectangulo"
@@ -13,15 +13,17 @@ interface IconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     | "group"
     | "person"
   size?: number
+  className?: string
+  alt?: string
 }
 
-export function Icon({ name, size = 24, className, ...props }: IconProps) {
+export function Icon({ name, size = 24, className, alt, ...props }: IconProps) {
   const iconPath = `/icons/${name}.svg`
 
   return (
-    <img
+    <Image
       src={iconPath || "/placeholder.svg"}
-      alt={name}
+      alt={alt || name}
       width={size}
       height={size}
       className={cn("inline-block", className)}
