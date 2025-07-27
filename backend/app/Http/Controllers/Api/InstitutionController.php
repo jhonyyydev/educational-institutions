@@ -33,7 +33,6 @@ class InstitutionController extends Controller
     // Registro compuesto (institución + colegios + usuarios)
     public function store(StoreCompoundInstitutionRequest $request)
     {
-        \Log::info('Request recibido', $request->all()); // Para ver si llega
         try {
             $dto = CompoundInstitutionDTO::fromRequest($request->validated());
             $institution = $this->institutionCompoundService->createCompound($dto);
