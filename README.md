@@ -1,6 +1,14 @@
 # Sistema de Gestión de Colegios - Full Stack Test
 
 Este repositorio contiene la solución al test técnico de desarrollo Full Stack. El sistema permite gestionar instituciones educativas, sus colegios y usuarios de manera jerárquica, facilitando la administración centralizada.
+Como adición a la solución se desplegó completamente la aplicación Full Stack, el servidor con Laravel y MySql, el frontend en Vercel.
+
+Accesible desde: https://educational-institutions-five.vercel.app/login
+
+Credenciales de acceso (Usuario con rol 'Responsable' capaz de registrar instituciones, colegios y usuarios)
+
+- Email: pedro.gonzalez@educacion.cl
+- Password: password123 
 
 ## Tecnologías Utilizadas
 
@@ -33,4 +41,7 @@ php artisan serve
 cd ../frontend
 npm install
 npm run dev
+
+Dentro del README de cada carpeta se pueden encontrar más a detalle los comandos para configurar y ejecutar el proyecto.
+
 
