@@ -5,8 +5,7 @@ import { toast } from "sonner"
 import type { ApiError } from "@/shared/types/api.types"
 
 export function useErrorHandler() {
-  const handleError = useCallback((error: ApiError | Error | unknown) => {
-    console.error("Application error:", error)
+  const handleError = useCallback((error: ApiError | Error | any) => {
 
     // Verificar si es un error de la API
     if (error && typeof error === "object" && "status" in error) {
@@ -59,9 +58,8 @@ export function useErrorHandler() {
           })
       }
     } else if (error && typeof error === "object" && "message" in error) {
-      const errorWithMessage = error as { message: string }
       toast.error("Error", {
-        description: errorWithMessage.message || "Ha ocurrido un error inesperado",
+        description: error.message || "Ha ocurrido un error inesperado",
       })
     } else {
       toast.error("Error", {
