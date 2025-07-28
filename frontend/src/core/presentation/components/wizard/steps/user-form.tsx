@@ -1,16 +1,18 @@
 "use client"
 
 import { useState } from "react"
+import type { UseFormReturn } from "react-hook-form"
 import { FormField, TextInput, RutInput } from "../../forms/form-field"
 import { WizardNavigation } from "../wizar-navigation"
 import { Label } from "@/components/ui/label"
 import type { SchoolData } from "@/core/presentation/hooks/use-institutions-wizar"
+import type { UserFormData } from "@/shared/utils/validation"
 
 interface UserFormProps {
-  form: any
+  form: UseFormReturn<UserFormData>
   schools: SchoolData[]
   isEditing: boolean
-  onSubmit: (data: any) => void
+  onSubmit: (data: UserFormData) => void
   onCancel: () => void
   onRutValidation: (rut: string) => void
   validatingRut: boolean

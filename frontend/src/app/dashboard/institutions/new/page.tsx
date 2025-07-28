@@ -21,47 +21,10 @@ import type {
   CreateUserDTO,
   UserSchoolAssignmentDTO,
 } from "@/shared/types/institution.types"
-import { z } from "zod"
-import { validateRUT } from "@/shared/utils/validation"
+import type { SchoolFormData, UserFormData } from "@/shared/utils/validation"
 
-const institutionStepSchema = z.object({
-  name: z.string().min(1, "Nombre es requerido"),
-  rut: z.string().refine(validateRUT, "Formato de RUT inválido. Use: 12345678-9"),
-  region_id: z.number().min(1, "Región es requerida"),
-  commune_id: z.number().min(1, "Comuna es requerida"),
-  address: z.string().min(1, "Dirección es requerida"),
-  phone: z.string().optional(),
-  start_date: z.string().min(1, "Fecha de inicio es requerida"),
-})
-
-const schoolSchema = z.object({
-  name: z.string().min(1, "Nombre es requerido"),
-  rut: z.string().refine(validateRUT, "Formato de RUT inválido. Use: 12345678-9"),
-  region_id: z.number().min(1, "Región es requerida"),
-  commune_id: z.number().min(1, "Comuna es requerida"),
-  address: z.string().min(1, "Dirección es requerida"),
-  phone: z.string().optional(),
-})
-
-const userSchema = z.object({
-  first_name: z.string().min(1, "Nombre es requerido"),
-  last_name: z.string().min(1, "Apellido es requerido"),
-  rut: z.string().refine(validateRUT, "Formato de RUT inválido. Use: 12345678-9"),
-  phone: z.string().optional(),
-  email: z.string().email("Email inválido"),
-  assigned_schools: z.array(z.string()).min(0),
-})
-
-type InstitutionStepData = z.infer<typeof institutionStepSchema>
-type SchoolData = z.infer<typeof schoolSchema> & { id: string }
-type UserData = z.infer<typeof userSchema> & { id: string }
-
-const STEPS = [
-  { id: 1, name: "Configuración cliente", key: "institution" },
-  { id: 2, name: "Colegios", key: "schools" },
-  { id: 3, name: "Usuarios", key: "users" },
-  { id: 4, name: "Resumen", key: "summary" },
-] as const
+type SchoolData = SchoolFormData & { id: string }
+type UserData = UserFormData & { id: string }
 
 export default function NewInstitutionPage() {
   const router = useRouter()
@@ -79,7 +42,6 @@ export default function NewInstitutionPage() {
     institutionForm,
     schoolForm,
     userForm,
-    setInstitutionData,
     setSchools,
     setUsers,
     goToStep,
@@ -154,7 +116,7 @@ export default function NewInstitutionPage() {
     setShowSchoolForm(true)
   }
 
-  const handleSubmitSchool = (data: SchoolData) => {
+  const handleSubmitSchool = (data: SchoolFormData) => {
     const newSchool = { ...data, id: Date.now().toString() }
     if (editingSchool) {
       setSchools(schools.map((s) => (s.id === editingSchool.id ? { ...newSchool, id: editingSchool.id } : s)))
@@ -191,7 +153,7 @@ export default function NewInstitutionPage() {
     setShowUserForm(true)
   }
 
-  const handleSubmitUser = (data: UserData) => {
+  const handleSubmitUser = (data: UserFormData) => {
     const newUser = { ...data, id: Date.now().toString() }
     if (editingUser) {
       setUsers(users.map((u) => (u.id === editingUser.id ? { ...newUser, id: editingUser.id } : u)))

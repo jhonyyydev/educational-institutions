@@ -4,13 +4,13 @@ import { useCallback } from "react"
 import { toast } from "sonner"
 import type { ApiError } from "@/shared/types/api.types"
 
-export function useErrorHandler() {
-  const handleError = useCallback((error: ApiError | Error | any) => {
+type ErrorType = ApiError | Error | { message?: string; status?: number }
 
+export function useErrorHandler() {
+  const handleError = useCallback((error: ErrorType) => {
     // Verificar si es un error de la API
     if (error && typeof error === "object" && "status" in error) {
       const apiError = error as ApiError
-
       switch (apiError.status) {
         case 0:
           toast.error("Error de conexión", {
@@ -37,7 +37,6 @@ export function useErrorHandler() {
             const errorMessages = Object.entries(apiError.errors)
               .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
               .join("\n")
-
             toast.error("Error de validación", {
               description: errorMessages,
             })

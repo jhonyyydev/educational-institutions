@@ -1,13 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import type { UseFormReturn } from "react-hook-form"
 import { FormField, TextInput, SelectInput } from "../../forms/form-field"
 import { WizardNavigation } from "../wizar-navigation"
 import type { Region, Commune } from "@/shared/types/location.types"
 import type { InstitutionStepData } from "@/core/presentation/hooks/use-institutions-wizar"
 
 interface InstitutionStepProps {
-  form: any
+  form: UseFormReturn<InstitutionStepData>
   regions: Region[]
   getCommunes: (regionId: number) => Commune[]
   institutionData: InstitutionStepData
@@ -113,6 +114,7 @@ export function InstitutionStep({
               <TextInput type="date" register={form.register("start_date")} />
             </FormField>
 
+            {/* Espacio vacío para mantener la estructura de 3 columnas */}
             <div></div>
           </div>
         </div>

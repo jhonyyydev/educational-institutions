@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import type { UseFormRegisterReturn } from "react-hook-form"
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -32,7 +33,7 @@ export function FormField({ label, required = false, error, helpText, children }
 interface TextInputProps {
   placeholder?: string
   type?: string
-  register?: any
+  register?: UseFormRegisterReturn
   className?: string
 }
 
@@ -74,7 +75,7 @@ export function SelectInput({ placeholder, value, onValueChange, disabled, optio
 
 interface RutInputProps {
   placeholder?: string
-  register?: any
+  register?: UseFormRegisterReturn
   onBlur?: (value: string) => void
   validating?: boolean
 }

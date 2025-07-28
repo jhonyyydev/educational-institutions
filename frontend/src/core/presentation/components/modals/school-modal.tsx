@@ -1,17 +1,19 @@
 "use client"
 
 import { useState } from "react"
+import type { UseFormReturn } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
 import { FormField, TextInput, SelectInput, RutInput } from "../forms/form-field"
 import type { Region, Commune } from "@/shared/types/location.types"
+import type { SchoolFormData } from "@/shared/utils/validation"
 
 interface SchoolModalProps {
-  form: any
+  form: UseFormReturn<SchoolFormData>
   regions: Region[]
   getCommunes: (regionId: number) => Commune[]
   isEditing: boolean
-  onSubmit: (data: any) => void
+  onSubmit: (data: SchoolFormData) => void
   onClose: () => void
   onRutValidation: (rut: string) => void
   validatingRut: boolean
