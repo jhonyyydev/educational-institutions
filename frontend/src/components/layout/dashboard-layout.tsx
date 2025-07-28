@@ -22,7 +22,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       await logout()
       router.push("/login")
     } catch (error) {
-      console.error("Error during logout:", error)
     }
   }
 

@@ -28,7 +28,6 @@ export function useInstitutions(params?: SearchParams) {
     },
     staleTime: 5 * 60 * 1000, // 5 minutos
     retry: (failureCount: number, error: ApiError) => {
-      console.log(`🔄 Retry attempt ${failureCount} for institutions query`)
       // No reintentar en errores de autenticación o permisos
       if (error.status === 401 || error.status === 403) {
         return false
@@ -53,7 +52,6 @@ export function useCreateInstitution() {
       })
     },
     onError: (error: ApiError) => {
-      console.error("Error creating institution:", error)
     },
   })
 }

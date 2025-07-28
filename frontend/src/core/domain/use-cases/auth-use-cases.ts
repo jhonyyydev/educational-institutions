@@ -25,8 +25,6 @@ export class AuthUseCases {
     try {
       await this.authRepository.logout()
     } catch (error) {
-      // Continuar con logout local incluso si falla el servidor
-      console.error("Error during server logout:", error)
     } finally {
       // Limpiar datos locales
       if (typeof window !== "undefined") {
@@ -43,7 +41,6 @@ export class AuthUseCases {
       const userData = localStorage.getItem(STORAGE_KEYS.USER)
       return userData ? JSON.parse(userData) : null
     } catch (error) {
-      console.error("Error parsing user data:", error)
       return null
     }
   }

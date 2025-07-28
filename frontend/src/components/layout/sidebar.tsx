@@ -41,7 +41,6 @@ export function Sidebar() {
       await logout()
       router.push("/login")
     } catch (error) {
-      console.error("Error during logout:", error)
     }
   }
 

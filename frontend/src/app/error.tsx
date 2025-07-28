@@ -20,8 +20,6 @@ export default function Error({ error, reset }: ErrorProps) {
   // Evitar hydration mismatch
   useEffect(() => {
     setMounted(true)
-    // Log del error para debugging
-    console.error("Application error:", error)
   }, [error])
 
   const handleGoHome = () => {

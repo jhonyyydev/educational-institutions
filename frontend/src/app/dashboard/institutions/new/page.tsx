@@ -92,7 +92,6 @@ export default function NewInstitutionPage() {
         schoolForm.clearErrors("rut")
       }
     } catch (error) {
-      console.error("Error validating school RUT:", error)
       // En caso de error, limpiar para no bloquear
       schoolForm.clearErrors("rut")
     }
@@ -115,7 +114,6 @@ export default function NewInstitutionPage() {
         userForm.clearErrors("rut")
       }
     } catch (error) {
-      console.error("Error validating user RUT:", error)
       // En caso de error, limpiar para no bloquear
       userForm.clearErrors("rut")
     }
