@@ -42,11 +42,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10 h-12 px-3">
-                <Icon
-                  name="account-circle"
-                  size={32}
-                  className="mr-1 brightness-0 invert"
-                />
+                <Icon name="account-circle" size={32} className="mr-1 brightness-0 invert" />
                 <div className="flex flex-col items-start flex-1">
                   <span className="text-sm font-medium">
                     {user?.first_name} {user?.last_name}

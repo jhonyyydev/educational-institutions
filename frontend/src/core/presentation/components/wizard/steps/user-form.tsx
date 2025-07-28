@@ -29,6 +29,10 @@ export function UserForm({
 }: UserFormProps) {
   const [selectedSchools, setSelectedSchools] = useState<string[]>(form.getValues("assigned_schools") || [])
 
+  const hasRutError = !!form.formState.errors.rut
+  const isFormInvalid = !form.formState.isValid
+  const isSubmitDisabled = validatingRut || hasRutError || isFormInvalid
+
   const handleSchoolToggle = (schoolId: string) => {
     const newSelection = selectedSchools.includes(schoolId)
       ? selectedSchools.filter((id) => id !== schoolId)
@@ -121,6 +125,7 @@ export function UserForm({
             onCancel={onCancel}
             onSubmit={handleSubmit}
             submitLabel={isEditing ? "Actualizar" : "Agregar"}
+            submitDisabled={isSubmitDisabled} // Agregar esta prop
           />
         </div>
       </form>

@@ -77,29 +77,47 @@ export default function NewInstitutionPage() {
   // Validación de RUT
   const handleSchoolRutValidation = async (rut: string) => {
     if (!rut || rut.length < 8) return
+    
     try {
-      const isAvailable = await validateSchoolRut(rut)
-      if (!isAvailable) {
-        schoolForm.setError("rut", { message: "Este RUT ya está registrado" })
+      const isValid = await validateSchoolRut(rut)
+      
+      // Si isValid es FALSE, significa que el RUT YA EXISTE
+      if (isValid === false) {
+        schoolForm.setError("rut", { 
+          type: "manual",
+          message: "Este RUT ya está registrado" 
+        })
       } else {
+        // Si isValid es TRUE, el RUT está disponible
         schoolForm.clearErrors("rut")
       }
     } catch (error) {
       console.error("Error validating school RUT:", error)
+      // En caso de error, limpiar para no bloquear
+      schoolForm.clearErrors("rut")
     }
   }
 
   const handleUserRutValidation = async (rut: string) => {
     if (!rut || rut.length < 8) return
+    
     try {
-      const isAvailable = await validateUserRut(rut)
-      if (!isAvailable) {
-        userForm.setError("rut", { message: "Este RUT ya está registrado" })
+      const isValid = await validateUserRut(rut)
+      
+      // Si isValid es FALSE, significa que el RUT YA EXISTE
+      if (isValid === false) {
+        userForm.setError("rut", { 
+          type: "manual",
+          message: "Este RUT ya está registrado" 
+        })
       } else {
+        // Si isValid es TRUE, el RUT está disponible
         userForm.clearErrors("rut")
       }
     } catch (error) {
       console.error("Error validating user RUT:", error)
+      // En caso de error, limpiar para no bloquear
+      userForm.clearErrors("rut")
     }
   }
 

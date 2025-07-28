@@ -62,7 +62,8 @@ export default function DashboardPage() {
               className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-2 rounded-lg"
               onClick={() => router.push("/dashboard/institutions/new")}
             >
-              <Plus className="w-4 h-4 mr-2" />Nuevo
+              <Plus className="w-4 h-4 mr-2" />
+              Nuevo
             </Button>
           </div>
         </div>

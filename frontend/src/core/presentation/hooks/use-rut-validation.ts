@@ -3,6 +3,13 @@
 import { useState } from "react"
 import { apiClient } from "@/core/infrastructure/api/api-client"
 
+interface RutValidationResponse {
+  valid: boolean
+  message?: string
+  institution_name?: string
+  institution_names?: string[]
+}
+
 export function useRutValidation() {
   const [validatingSchoolRut, setValidatingSchoolRut] = useState(false)
   const [validatingUserRut, setValidatingUserRut] = useState(false)
@@ -13,10 +20,13 @@ export function useRutValidation() {
     try {
       setValidatingSchoolRut(true)
       const encodedRut = encodeURIComponent(rut)
-      const response = await apiClient.get<{ available: boolean }>(`/schools/validate-rut?rut=${encodedRut}`)
-      return response.available
+      const response = await apiClient.get<RutValidationResponse>(
+        `/schools/validate-rut?rut=${encodedRut}`
+      )
+
+      // Si valid es true, el RUT está disponible (NO existe)
+      return response.valid
     } catch (error) {
-      console.error("Error validating school RUT:", error)
       return true
     } finally {
       setValidatingSchoolRut(false)
@@ -28,13 +38,14 @@ export function useRutValidation() {
 
     try {
       setValidatingUserRut(true)
-      // Codificar el RUT para la URL
       const encodedRut = encodeURIComponent(rut)
-      const response = await apiClient.get<{ available: boolean }>(`/users/validate-rut?rut=${encodedRut}`)
-      return response.available
+      const response = await apiClient.get<RutValidationResponse>(
+        `/users/validate-rut?rut=${encodedRut}`
+      )
+
+      // Si valid es true, el RUT está disponible (NO existe)
+      return response.valid
     } catch (error) {
-      console.error("Error validating user RUT:", error)
-      // En caso de error, permitir continuar (no bloquear el formulario)
       return true
     } finally {
       setValidatingUserRut(false)
