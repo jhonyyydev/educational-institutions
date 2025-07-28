@@ -45,7 +45,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Icon
                   name="account-circle"
                   size={32}
-                  className="mr-3 brightness-0 invert"
+                  className="mr-1 brightness-0 invert"
                 />
                 <div className="flex flex-col items-start flex-1">
                   <span className="text-sm font-medium">
