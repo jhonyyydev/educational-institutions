@@ -6,17 +6,18 @@ import { Trash2, Edit } from "lucide-react"
 import { UserForm } from "./user-form"
 import type { UserData, SchoolData } from "@/core/presentation/hooks/use-institutions-wizar"
 import type { UseFormReturn } from "react-hook-form"
+import type { UserFormData } from "@/shared/utils/validation"
 
 interface UsersStepProps {
   users: UserData[]
   schools: SchoolData[]
-  userForm: UseFormReturn<any>
+  userForm: UseFormReturn<UserFormData>
   showingForm: boolean
   isEditing: boolean
   onAddUser: () => void
   onEditUser: (user: UserData) => void
   onDeleteUser: (userId: string) => void
-  onSubmitUser: (data: any) => void
+  onSubmitUser: (data: UserFormData) => void
   onCancelForm: () => void
   onNext: () => void
   onPrev: () => void
@@ -125,7 +126,7 @@ export function UsersStep({
             </table>
           ) : (
             <div className="p-8 text-center text-gray-500">
-              No hay usuarios agregados. Haz clic en "Agregar usuario" para comenzar.
+              No hay usuarios agregados. Haz clic en &quot;Agregar usuario&quot; para comenzar.
             </div>
           )}
         </div>

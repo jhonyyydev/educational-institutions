@@ -1,16 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import type { UseFormReturn } from "react-hook-form"
 import { FormField, TextInput, SelectInput, RutInput } from "../../forms/form-field"
 import { WizardNavigation } from "../wizar-navigation"
 import type { Region, Commune } from "@/shared/types/location.types"
+import type { SchoolFormData } from "@/shared/utils/validation"
 
 interface SchoolFormProps {
-  form: any
+  form: UseFormReturn<SchoolFormData>
   regions: Region[]
   getCommunes: (regionId: number) => Commune[]
   isEditing: boolean
-  onSubmit: (data: any) => void
+  onSubmit: (data: SchoolFormData) => void
   onCancel: () => void
   onRutValidation: (rut: string) => void
   validatingRut: boolean

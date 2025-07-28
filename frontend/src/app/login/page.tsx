@@ -41,7 +41,8 @@ export default function LoginPage() {
       handleSuccess("Inicio de sesión exitoso")
       router.push("/dashboard")
     } catch (error: unknown) {
-      handleError(error)
+      // Cast del error unknown a nuestro tipo ErrorType
+      handleError(error as Error)
     } finally {
       setIsLoading(false)
     }

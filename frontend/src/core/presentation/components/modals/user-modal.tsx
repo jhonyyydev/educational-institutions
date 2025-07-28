@@ -1,17 +1,19 @@
 "use client"
 
 import { useState } from "react"
+import type { UseFormReturn } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { X } from "lucide-react"
 import { FormField, TextInput, RutInput } from "../forms/form-field"
 import type { SchoolData } from "@/core/presentation/hooks/use-institutions-wizar"
+import type { UserFormData } from "@/shared/utils/validation"
 
 interface UserModalProps {
-  form: any
+  form: UseFormReturn<UserFormData>
   schools: SchoolData[]
   isEditing: boolean
-  onSubmit: (data: any) => void
+  onSubmit: (data: UserFormData) => void
   onClose: () => void
   onRutValidation: (rut: string) => void
   validatingRut: boolean

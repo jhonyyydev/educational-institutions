@@ -7,18 +7,19 @@ import { SchoolForm } from "./school-form"
 import type { SchoolData } from "@/core/presentation/hooks/use-institutions-wizar"
 import type { Region } from "@/shared/types/location.types"
 import type { UseFormReturn } from "react-hook-form"
+import type { SchoolFormData } from "@/shared/utils/validation"
 
 interface SchoolsStepProps {
   schools: SchoolData[]
   regions: Region[]
-  getCommunes: (regionId: number) => any[]
-  schoolForm: UseFormReturn<any>
+  getCommunes: (regionId: number) => Array<{ id: number; name: string; code: string }>
+  schoolForm: UseFormReturn<SchoolFormData>
   showingForm: boolean
   isEditing: boolean
   onAddSchool: () => void
   onEditSchool: (school: SchoolData) => void
   onDeleteSchool: (schoolId: string) => void
-  onSubmitSchool: (data: any) => void
+  onSubmitSchool: (data: SchoolFormData) => void
   onCancelForm: () => void
   onNext: () => void
   onPrev: () => void
@@ -113,7 +114,7 @@ export function SchoolsStep({
             </table>
           ) : (
             <div className="p-8 text-center text-gray-500">
-              No hay colegios agregados. Haz clic en "Agregar colegio" para comenzar.
+              No hay colegios agregados. Haz clic en &quot;Agregar colegio&quot; para comenzar.
             </div>
           )}
         </div>
