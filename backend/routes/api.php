@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\InstitutionController;
 use App\Http\Controllers\Api\ValidationController;
+use App\Http\Controllers\Api\RegionController;
 
 // Rutas públicas
 Route::post('/login', [AuthController::class, 'login']);
@@ -28,5 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/institutions', [InstitutionController::class, 'index']);
         Route::post('/institutions', [InstitutionController::class, 'store']); // Registro compuesto
         Route::post('/institutions/simple', [InstitutionController::class, 'storeSimple']); // Registro simple
+        Route::get('/regions', [RegionController::class, 'index']);
     });
 });
