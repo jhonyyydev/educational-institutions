@@ -1,27 +1,16 @@
 import { z } from "zod"
 
-// Validación de RUT chileno
+// Validación simple de RUT chileno - solo formato
 export const validateRUT = (rut: string): boolean => {
   if (!rut) return false
 
-  const cleanRUT = rut.replace(/[^0-9kK]/g, "")
-  if (cleanRUT.length < 8 || cleanRUT.length > 9) return false
+  // Limpiar el RUT: remover espacios
+  const cleanRUT = rut.trim()
 
-  const body = cleanRUT.slice(0, -1)
-  const dv = cleanRUT.slice(-1).toUpperCase()
+  // Verificar formato: 8 o 9 dígitos, guión, 1 dígito o K
+  const rutRegex = /^\d{7,8}-[\dkK]$/
 
-  let sum = 0
-  let multiplier = 2
-
-  for (let i = body.length - 1; i >= 0; i--) {
-    sum += Number.parseInt(body[i]) * multiplier
-    multiplier = multiplier === 7 ? 2 : multiplier + 1
-  }
-
-  const remainder = sum % 11
-  const calculatedDV = remainder < 2 ? remainder.toString() : remainder === 10 ? "K" : (11 - remainder).toString()
-
-  return dv === calculatedDV
+  return rutRegex.test(cleanRUT)
 }
 
 // Esquemas de validación con Zod
@@ -30,15 +19,35 @@ export const loginSchema = z.object({
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 })
 
-export const institutionSchema = z.object({
+export const institutionStepSchema = z.object({
   name: z.string().min(1, "Nombre es requerido"),
-  rut: z.string().refine(validateRUT, "RUT inválido"),
+  rut: z.string().refine(validateRUT, "Formato de RUT inválido. Use: 12345678-9"),
+  region_id: z.number().min(1, "Región es requerida"),
   commune_id: z.number().min(1, "Comuna es requerida"),
   address: z.string().min(1, "Dirección es requerida"),
-  phone: z.string().nullable(),
+  phone: z.string().optional(),
   start_date: z.string().min(1, "Fecha de inicio es requerida"),
-  responsible_id: z.number().min(1, "Responsable es requerido"),
+})
+
+export const schoolSchema = z.object({
+  name: z.string().min(1, "Nombre es requerido"),
+  rut: z.string().refine(validateRUT, "Formato de RUT inválido. Use: 12345678-9"),
+  region_id: z.number().min(1, "Región es requerida"),
+  commune_id: z.number().min(1, "Comuna es requerida"),
+  address: z.string().min(1, "Dirección es requerida"),
+  phone: z.string().optional(),
+})
+
+export const userSchema = z.object({
+  first_name: z.string().min(1, "Nombre es requerido"),
+  last_name: z.string().min(1, "Apellido es requerido"),
+  rut: z.string().refine(validateRUT, "Formato de RUT inválido. Use: 12345678-9"),
+  phone: z.string().optional(),
+  email: z.string().email("Email inválido"),
+  assigned_schools: z.array(z.string()).min(0),
 })
 
 export type LoginFormData = z.infer<typeof loginSchema>
-export type InstitutionFormData = z.infer<typeof institutionSchema>
+export type InstitutionFormData = z.infer<typeof institutionStepSchema>
+export type SchoolFormData = z.infer<typeof schoolSchema>
+export type UserFormData = z.infer<typeof userSchema>

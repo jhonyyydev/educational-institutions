@@ -22,10 +22,8 @@ export function useInstitutions(params?: SearchParams) {
   return useQuery<InstitutionsResponse, ApiError>({
     queryKey: QUERY_KEYS.INSTITUTION_LIST(params),
     queryFn: async () => {
-      console.log("🏢 Fetching institutions with params:", params)
       const institutionUseCases = createInstitutionUseCases()
       const result = await institutionUseCases.getInstitutions(params)
-      console.log("🏢 Institutions fetched:", result)
       return result
     },
     staleTime: 5 * 60 * 1000, // 5 minutos

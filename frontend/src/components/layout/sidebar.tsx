@@ -58,7 +58,7 @@ export function Sidebar() {
                 variant="ghost"
                 className={cn(
                   "w-full justify-start text-white hover:bg-white/10 h-12 px-3",
-                  isActive && "bg-white/20 text-white",
+                  isActive && "text-white",
                 )}
               >
                 <Icon name={item.icon} size={24} className="mr-4 brightness-0 invert" />
