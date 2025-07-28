@@ -31,6 +31,11 @@ export function SchoolForm({
   const [selectedRegion, setSelectedRegion] = useState<number>(0)
   const [selectedCommune, setSelectedCommune] = useState<number>(0)
 
+  // para verificar si el botón debe estar deshabilitado
+  const hasRutError = !!form.formState.errors.rut
+  const isFormInvalid = !form.formState.isValid
+  const isSubmitDisabled = validatingRut || hasRutError || isFormInvalid
+
   useEffect(() => {
     const regionId = form.getValues("region_id")
     const communeId = form.getValues("commune_id")
@@ -56,7 +61,7 @@ export function SchoolForm({
     form.handleSubmit(onSubmit)()
   }
 
-  return (
+return (
     <div className="w-full min-h-screen flex flex-col">
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 flex flex-col">
         <div className="flex-1 space-y-6">
@@ -139,6 +144,7 @@ export function SchoolForm({
             onCancel={onCancel}
             onSubmit={handleSubmit}
             submitLabel={isEditing ? "Actualizar" : "Agregar"}
+            submitDisabled={isSubmitDisabled} // Agregar esta prop
           />
         </div>
       </form>

@@ -13,6 +13,7 @@ interface WizardNavigationProps {
   showCancel?: boolean
   showSubmit?: boolean
   isLoading?: boolean
+  submitDisabled?: boolean
   nextLabel?: string
   submitLabel?: string
 }
@@ -27,6 +28,7 @@ export function WizardNavigation({
   showCancel = false,
   showSubmit = false,
   isLoading = false,
+  submitDisabled = false,
   nextLabel = "Siguiente",
   submitLabel = "Guardar",
 }: WizardNavigationProps) {
@@ -67,8 +69,8 @@ export function WizardNavigation({
         <Button
           type="button"
           onClick={onSubmit}
-          disabled={isLoading}
-          className="px-6 py-2 text-white rounded hover:opacity-90"
+          disabled={isLoading || submitDisabled}
+          className="px-6 py-2 text-white rounded hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ backgroundColor: "#12172f" }}
         >
           {isLoading ? (

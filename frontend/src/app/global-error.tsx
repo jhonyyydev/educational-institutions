@@ -14,7 +14,6 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
 
   useEffect(() => {
     setMounted(true)
-    console.error("Global error:", error)
   }, [error])
 
   if (!mounted) {

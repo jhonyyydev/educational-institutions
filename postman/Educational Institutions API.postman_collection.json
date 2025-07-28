@@ -108,7 +108,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{server_url}}/institutions?page=1",
+							"raw": "{{server_url}}/institutions?page=3",
 							"host": [
 								"{{server_url}}"
 							],
@@ -118,7 +118,7 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "3"
 								}
 							]
 						},
@@ -205,6 +205,79 @@
 				}
 			],
 			"description": "# Instituciones: Gestión de Instituciones Educativas (Lógica de Negocio)\n\nEsta colección contiene los endpoints desarrollados como parte de la prueba técnica Full Stack, orientados a la gestión de instituciones educativas.\n\nEl API permite administrar las entidades de \"Institución\", que representan organizaciones educativas que agrupan colegios y usuarios dentro de una jerarquía estructurada.\n\n## Funcionalidades Documentadas:\n\nActualmente, esta colección documenta los endpoints esenciales para la gestión de instituciones:\n\n1. **Listar Instituciones**\n    \n    - Método: GET\n        \n    - Descripción: Obtiene el listado completo de instituciones registradas en el sistema.\n        \n2. **Crear Institución**\n    \n    - Método: POST\n        \n    - Descripción: Registra una nueva institución educativa mediante la recepción de datos estructurados.\n        \n\n## Estructura de la Entidad Institución:\n\n| Campo | Tipo | Descripción |\n| --- | --- | --- |\n| name | string | Nombre de la institución |\n| rut | string | RUT único de la institución |\n| region | string | Región donde se ubica |\n| comuna | string | Comuna correspondiente |\n| direccion | string | Dirección física |\n| telefono | string | Número telefónico de contacto |\n| fecha_inicio | date | Fecha de inicio de operaciones |\n\n## Autenticación Requerida:\n\nTodos los endpoints están protegidos mediante Laravel Sanctum. Es necesario incluir el token de autenticación en el Header de la siguiente manera:  \nAuthorization: Bearer {{auth_token}}"
+		},
+		{
+			"name": "Regions",
+			"item": [
+				{
+					"name": "List Regions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server_url}}/regions",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"regions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RUT Validations",
+			"item": [
+				{
+					"name": "Validate School RUT",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server_url}}/schools/validate-rut?rut=77510408-6",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"schools",
+								"validate-rut"
+							],
+							"query": [
+								{
+									"key": "rut",
+									"value": "77510408-6"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

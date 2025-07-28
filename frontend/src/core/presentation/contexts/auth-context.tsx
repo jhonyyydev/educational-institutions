@@ -41,7 +41,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           setUser(currentUser)
         }
       } catch (error) {
-        console.error("Error initializing auth:", error)
         // Limpiar datos corruptos
         const authUseCases = createAuthUseCases()
         authUseCases.logout()
@@ -73,7 +72,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       await authUseCases.logout()
       setUser(null)
     } catch (error) {
-      console.error("Error during logout:", error)
       // Continuar con logout local
       setUser(null)
     } finally {
